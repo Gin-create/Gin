@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // 获取DOM元素
+﻿document.addEventListener('DOMContentLoaded', function() {
+    // 鑾峰彇DOM鍏冪礌
     const messageArea = document.getElementById('message-area');
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
@@ -9,29 +9,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const movieBtn = document.getElementById('movie-btn');
     const bojueBtn = document.getElementById('ai-btn');
     
-    // 存储AI响应消息元素的映射
-    const aiResponseElements = {};
+    // 瀛樺偍AI鍝嶅簲娑堟伅鍏冪礌鐨勬槧灏?    const aiResponseElements = {};
     
-    // 获取当前用户名（从HTML中解析）
-    const currentUsername = document.querySelector('.user-info span').textContent.replace('当前用户: ', '');
+    // 鑾峰彇褰撳墠鐢ㄦ埛鍚嶏紙浠嶩TML涓В鏋愶級
+    const currentUsername = document.querySelector('.user-info span').textContent.replace('褰撳墠鐢ㄦ埛: ', '');
     
-    // 建立Socket.io连接
+    // 寤虹珛Socket.io杩炴帴
     const socket = io();
     
-    // 自动调整输入框高度
-    messageInput.addEventListener('input', function() {
+    // 鑷姩璋冩暣杈撳叆妗嗛珮搴?    messageInput.addEventListener('input', function() {
         this.style.height = 'auto';
         this.style.height = Math.min(this.scrollHeight, 120) + 'px';
     });
     
-    // 发送消息
-    function sendMessage() {
+    // 鍙戦€佹秷鎭?    function sendMessage() {
         const message = messageInput.value.trim();
         if (message) {
-            // 检查是否是@电影消息
-            if (message.startsWith('@电影')) {
-                // 提取URL并发送电影消息
-                const url = message.substring(4).trim();
+            // 妫€鏌ユ槸鍚︽槸@鐢靛奖娑堟伅
+            if (message.startsWith('@鐢靛奖')) {
+                // 鎻愬彇URL骞跺彂閫佺數褰辨秷鎭?                const url = message.substring(4).trim();
                 if (url) {
                     socket.emit('send_message', { 
                         message: message,
@@ -41,22 +37,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     socket.emit('send_message', { message: message });
                 }
-            } else if (message.startsWith('@伯小爵')) {
-                // 发送伯小爵AI助手消息
+            } else if (message.startsWith('@浼皬鐖?)) {
+                // 鍙戦€佷集灏忕埖AI鍔╂墜娑堟伅
                 socket.emit('send_message', { 
                     message: message,
                     type: 'ai',
                     ai_mention: true
                 });
-            } else if (message.startsWith('@音乐')) {
-                // 发送音乐命令
-                socket.emit('send_message', { 
+            } else if (message.startsWith('@闊充箰')) {
+                // 鍙戦€侀煶涔愬懡浠?                socket.emit('send_message', { 
                     message: message,
                     type: 'music'
                 });
-            } else if (message.startsWith('@天气')) {
-                // 发送天气查询命令
-                const city = message.substring(4).trim();
+            } else if (message.startsWith('@澶╂皵')) {
+                // 鍙戦€佸ぉ姘旀煡璇㈠懡浠?                const city = message.substring(4).trim();
                 if (city) {
                     socket.emit('send_message', { 
                         message: message,
@@ -66,18 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     socket.emit('send_message', { message: message });
                 }
-            } else if (message.startsWith('@新闻')) {
-                // 发送新闻查询命令
-                socket.emit('send_message', { 
-                    message: message,
-                    type: 'news'
-                });
-            } else if (message.startsWith('@')) {
-                // 发送其他@提醒命令
-                socket.emit('send_message', { 
-                    message: message,
-                    type: 'mention'
-                });
             } else {
                 socket.emit('send_message', { message: message });
             }
@@ -85,28 +67,24 @@ document.addEventListener('DOMContentLoaded', function() {
             messageInput.value = '';
             messageInput.style.height = 'auto';
             
-            // 隐藏表情选择器
-            emojiPicker.style.display = 'none';
+            // 闅愯棌琛ㄦ儏閫夋嫨鍣?            emojiPicker.style.display = 'none';
         }
     }
     
-    // 点击发送按钮
-    sendButton.addEventListener('click', sendMessage);
+    // 鐐瑰嚮鍙戦€佹寜閽?    sendButton.addEventListener('click', sendMessage);
     
-    // 按Enter发送消息（Shift+Enter换行）
-    messageInput.addEventListener('keydown', function(event) {
+    // 鎸塃nter鍙戦€佹秷鎭紙Shift+Enter鎹㈣锛?    messageInput.addEventListener('keydown', function(event) {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
             sendMessage();
         }
     });
     
-    // 表情选择器
-    emojiBtn.addEventListener('click', function() {
+    // 琛ㄦ儏閫夋嫨鍣?    emojiBtn.addEventListener('click', function() {
         emojiPicker.style.display = emojiPicker.style.display === 'block' ? 'none' : 'block';
     });
     
-    // 选择表情
+    // 閫夋嫨琛ㄦ儏
     document.querySelectorAll('.emoji-grid span').forEach(emoji => {
         emoji.addEventListener('click', function() {
             messageInput.value += this.textContent;
@@ -114,135 +92,129 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // 点击其他地方关闭表情选择器
-    document.addEventListener('click', function(event) {
+    // 鐐瑰嚮鍏朵粬鍦版柟鍏抽棴琛ㄦ儏閫夋嫨鍣?    document.addEventListener('click', function(event) {
         if (!emojiBtn.contains(event.target) && !emojiPicker.contains(event.target)) {
             emojiPicker.style.display = 'none';
         }
     });
     
-    // 电影按钮快捷操作
+    // 鐢靛奖鎸夐挳蹇嵎鎿嶄綔
     movieBtn.addEventListener('click', function() {
-        messageInput.value = '@电影 ';
+        messageInput.value = '@鐢靛奖 ';
         messageInput.focus();
     });
     
-    // 伯小爵AI助手快捷操作
+    // 浼皬鐖礎I鍔╂墜蹇嵎鎿嶄綔
     bojueBtn.addEventListener('click', function() {
-        messageInput.value = '@伯小爵 ';
+        messageInput.value = '@浼皬鐖?';
         messageInput.focus();
     });
     
-    // 退出登录
-    logoutButton.addEventListener('click', function() {
-        if (confirm('确定要退出聊天室吗？')) {
+    // 閫€鍑虹櫥褰?    logoutButton.addEventListener('click', function() {
+        if (confirm('纭畾瑕侀€€鍑鸿亰澶╁鍚楋紵')) {
             window.location.href = '/logout';
         }
     });
     
-    // 处理接收到的消息
+    // 澶勭悊鎺ユ敹鍒扮殑娑堟伅
     socket.on('receive_message', function(data) {
-        // 处理流式AI响应的不同阶段
-        if (data.type === 'ai_start') {
-            // AI开始响应，创建消息容器
+        // 澶勭悊娴佸紡AI鍝嶅簲鐨勪笉鍚岄樁娈?        if (data.type === 'ai_start') {
+            // AI寮€濮嬪搷搴旓紝鍒涘缓娑堟伅瀹瑰櫒
             const messageElement = document.createElement('div');
             messageElement.className = 'message-item other ai-message';
             messageElement.setAttribute('data-message-id', data.message_id);
             
-            // 消息头部
+            // 娑堟伅澶撮儴
             const headerElement = document.createElement('div');
             headerElement.className = 'message-header';
             headerElement.innerHTML = `
                 <span class="message-user">${data.username}</span>
                 <span class="message-time">${new Date().toLocaleTimeString()}</span>
-                <span class="typing-indicator">输入中...</span>
+                <span class="typing-indicator">杈撳叆涓?..</span>
             `;
             
-            // 消息内容容器
+            // 娑堟伅鍐呭瀹瑰櫒
             const contentElement = document.createElement('div');
             contentElement.className = 'message-content ai-response';
             contentElement.textContent = '';
             
-            // 组装消息元素
+            // 缁勮娑堟伅鍏冪礌
             messageElement.appendChild(headerElement);
             messageElement.appendChild(contentElement);
             messageArea.appendChild(messageElement);
             
-            // 存储消息元素引用
+            // 瀛樺偍娑堟伅鍏冪礌寮曠敤
             aiResponseElements[data.message_id] = {
                 element: messageElement,
                 content: contentElement,
                 header: headerElement
             };
             
-            // 滚动到底部
-            scrollToBottom();
+            // 婊氬姩鍒板簳閮?            scrollToBottom();
             return;
         } 
         else if (data.type === 'ai_stream') {
-            // AI流式响应内容更新
+            // AI娴佸紡鍝嶅簲鍐呭鏇存柊
             if (aiResponseElements[data.message_id]) {
                 const { content } = aiResponseElements[data.message_id];
-                // 追加新内容，支持基本的Markdown格式
+                // 杩藉姞鏂板唴瀹癸紝鏀寔鍩烘湰鐨凪arkdown鏍煎紡
                 let formattedContent = escapeHtml(data.content);
-                // 简单的换行支持
+                // 绠€鍗曠殑鎹㈣鏀寔
                 formattedContent = formattedContent.replace(/\n/g, '<br>');
-                // 简单的加粗支持
+                // 绠€鍗曠殑鍔犵矖鏀寔
                 formattedContent = formattedContent.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-                // 简单的斜体支持
+                // 绠€鍗曠殑鏂滀綋鏀寔
                 formattedContent = formattedContent.replace(/\*(.+?)\*/g, '<em>$1</em>');
                 
-                // 如果内容不为空，添加到消息中
+                // 濡傛灉鍐呭涓嶄负绌猴紝娣诲姞鍒版秷鎭腑
                 if (content.innerHTML === '') {
                     content.innerHTML = formattedContent;
                 } else {
                     content.innerHTML += formattedContent;
                 }
                 
-                // 滚动到底部
-                scrollToBottom();
+                // 婊氬姩鍒板簳閮?                scrollToBottom();
             }
             return;
         }
         else if (data.type === 'ai_end') {
-            // AI响应完成
+            // AI鍝嶅簲瀹屾垚
             if (aiResponseElements[data.message_id]) {
                 const { element, header } = aiResponseElements[data.message_id];
-                // 移除输入中指示器
+                // 绉婚櫎杈撳叆涓寚绀哄櫒
                 const typingIndicator = header.querySelector('.typing-indicator');
                 if (typingIndicator) {
                     typingIndicator.remove();
                 }
-                // 标记为已完成
+                // 鏍囪涓哄凡瀹屾垚
                 element.classList.add('ai-complete');
-                // 清理引用（可选）
+                // 娓呯悊寮曠敤锛堝彲閫夛級
                 // delete aiResponseElements[data.message_id];
             }
             return;
         }
         else if (data.type === 'ai_error') {
-            // AI响应错误
+            // AI鍝嶅簲閿欒
             if (aiResponseElements[data.message_id]) {
                 const { element, content, header } = aiResponseElements[data.message_id];
-                // 移除输入中指示器
+                // 绉婚櫎杈撳叆涓寚绀哄櫒
                 const typingIndicator = header.querySelector('.typing-indicator');
                 if (typingIndicator) {
                     typingIndicator.remove();
                 }
-                // 显示错误消息
+                // 鏄剧ず閿欒娑堟伅
                 content.textContent = data.error;
                 content.style.color = '#dc3545';
-                // 标记为错误
-                element.classList.add('ai-error');
+                // 鏍囪涓洪敊璇?                element.classList.add('ai-error');
             }
             return;
         }
         
-        // 处理常规消息
+        // 澶勭悊甯歌娑堟伅
         const messageElement = document.createElement('div');
         messageElement.className = `message-item ${data.username === currentUsername ? 'self' : 'other'}`;
         
-        // 消息头部
+        // 娑堟伅澶撮儴
         const headerElement = document.createElement('div');
         headerElement.className = 'message-header';
         headerElement.innerHTML = `
@@ -250,14 +222,14 @@ document.addEventListener('DOMContentLoaded', function() {
             <span class="message-time">${new Date().toLocaleTimeString()}</span>
         `;
         
-        // 消息内容
+        // 娑堟伅鍐呭
         const contentElement = document.createElement('div');
         contentElement.className = 'message-content';
         
-        // 根据消息类型处理内容
+        // 鏍规嵁娑堟伅绫诲瀷澶勭悊鍐呭
         if (data.type === 'movie' && data.movie_url) {
             contentElement.innerHTML = `
-                <div>🎬 正在播放电影</div>
+                <div>馃幀 姝ｅ湪鎾斁鐢靛奖</div>
                 <div class="movie-player">
                     <iframe src="${data.movie_url}" width="400" height="400" allowfullscreen></iframe>
                 </div>
@@ -265,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (data.type === 'music' && data.music_info) {
             const music = data.music_info;
             contentElement.innerHTML = `
-                <div>🎵 正在播放音乐</div>
+                <div>馃幍 姝ｅ湪鎾斁闊充箰</div>
                 <div class="music-player">
                     <div class="music-info">
                         <div class="music-pic">
@@ -276,8 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <h4 class="music-singer">${music.singer}</h4>
                             <audio controls width="300" referrerpolicy="no-referrer">
                         <source src="/proxy-music?url=${encodeURIComponent(music.song_url || '')}" type="audio/mpeg">
-                        您的浏览器不支持音频播放。
-                      </audio>
+                        鎮ㄧ殑娴忚鍣ㄤ笉鏀寔闊抽鎾斁銆?                      </audio>
                         </div>
                     </div>
                 </div>
@@ -286,49 +257,44 @@ document.addEventListener('DOMContentLoaded', function() {
             contentElement.classList.add('ai-response');
             contentElement.textContent = data.message;
         } else if (data.type === 'weather' && data.city) {
-            // 创建天气iframe
+            // 鍒涘缓澶╂皵iframe
             const weatherIframeUrl = `/weather.html?city=${encodeURIComponent(data.city)}`;
             contentElement.innerHTML = `
-                <div>🌤️ ${data.city} 天气信息</div>
+                <div>馃尋锔?${data.city} 澶╂皵淇℃伅</div>
                 <div class="weather-card">
                     <iframe src="${weatherIframeUrl}" width="400" height="400" frameborder="0" scrolling="auto"></iframe>
                 </div>
             `;
         } else if (data.type === 'news' && data.news_list) {
-            // 创建新闻区域
+            // 鍒涘缓鏂伴椈鍖哄煙
             contentElement.innerHTML = createNewsHTML(data.news_list);
         } else if (data.type === 'mention' && data.mentioned_user) {
-            // 高亮@提及的用户
-            let formattedMessage = escapeHtml(data.message).replace(
+            // 楂樹寒@鎻愬強鐨勭敤鎴?            let formattedMessage = escapeHtml(data.message).replace(
                 new RegExp(`@${escapeRegex(data.mentioned_user)}`),
                 `<span class="message-mention">@${data.mentioned_user}</span>`
             );
             contentElement.innerHTML = formattedMessage;
             
-            // 如果提及的是当前用户，添加提醒
-            if (data.mentioned_user === currentUsername) {
+            // 濡傛灉鎻愬強鐨勬槸褰撳墠鐢ㄦ埛锛屾坊鍔犳彁閱?            if (data.mentioned_user === currentUsername) {
                 contentElement.style.backgroundColor = '#fff3cd';
-                // 可以添加声音提醒或其他效果
-            }
+                // 鍙互娣诲姞澹伴煶鎻愰啋鎴栧叾浠栨晥鏋?            }
         } else {
             contentElement.textContent = data.message;
         }
         
-        // 组装消息元素
+        // 缁勮娑堟伅鍏冪礌
         messageElement.appendChild(headerElement);
         messageElement.appendChild(contentElement);
         messageArea.appendChild(messageElement);
         
-        // 滚动到底部
-        scrollToBottom();
+        // 婊氬姩鍒板簳閮?        scrollToBottom();
         
-        // 处理右侧边栏音乐播放器
-        if (data.type === 'music' && data.music_info) {
+        // 澶勭悊鍙充晶杈规爮闊充箰鎾斁鍣?        if (data.type === 'music' && data.music_info) {
             updateMusicPlayer(data.music_info);
         }
     });
     
-    // HTML转义函数
+    // HTML杞箟鍑芥暟
     function escapeHtml(unsafe) {
         return unsafe
             .replace(/&/g, "&amp;")
@@ -338,19 +304,17 @@ document.addEventListener('DOMContentLoaded', function() {
             .replace(/'/g, "&#039;");
     }
     
-    // 正则表达式转义函数
-    function escapeRegex(string) {
+    // 姝ｅ垯琛ㄨ揪寮忚浆涔夊嚱鏁?    function escapeRegex(string) {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
-    // 创建新闻信息的HTML结构
+    // 鍒涘缓鏂伴椈淇℃伅鐨凥TML缁撴瀯
 function createNewsHTML(newsList) {
-    // 只显示前10条新闻
-    const topNews = newsList.slice(0, 10);
+    // 鍙樉绀哄墠10鏉℃柊闂?    const topNews = newsList.slice(0, 10);
     
     return `
         <div class="news-container">
-            <h3>📰 微博热搜</h3>
+            <h3>馃摪 寰崥鐑悳</h3>
             <div class="news-list" style="width: 400px; height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px; background-color: #f9f9f9;">
                 <ol style="list-style-type: decimal; padding-left: 20px; margin: 0;">
                     ${topNews.map(news => `
@@ -359,7 +323,7 @@ function createNewsHTML(newsList) {
                                 ${news.title}
                             </a>
                             <span style="display: block; font-size: 12px; color: #999; margin-top: 2px;">
-                                热度: ${news.hot}
+                                鐑害: ${news.hot}
                             </span>
                         </li>
                     `).join('')}
@@ -369,32 +333,32 @@ function createNewsHTML(newsList) {
     `;
 }
     
-    // 用户加入通知
+    // 鐢ㄦ埛鍔犲叆閫氱煡
     socket.on('user_joined', function(data) {
         const notification = document.createElement('div');
         notification.className = 'welcome-message';
-        notification.textContent = `${data.username} 加入了聊天室`;
+        notification.textContent = `${data.username} 鍔犲叆浜嗚亰澶╁`;
         messageArea.appendChild(notification);
         scrollToBottom();
         updateOnlineUsers(data.online_users);
     });
     
-    // 用户离开通知
+    // 鐢ㄦ埛绂诲紑閫氱煡
     socket.on('user_left', function(data) {
         const notification = document.createElement('div');
         notification.className = 'welcome-message';
-        notification.textContent = `${data.username} 离开了聊天室`;
+        notification.textContent = `${data.username} 绂诲紑浜嗚亰澶╁`;
         messageArea.appendChild(notification);
         scrollToBottom();
         updateOnlineUsers(data.online_users);
     });
     
-    // 更新在线用户列表
+    // 鏇存柊鍦ㄧ嚎鐢ㄦ埛鍒楄〃
     socket.on('update_online_users', function(data) {
         updateOnlineUsers(data.online_users);
     });
     
-    // 更新在线用户列表UI
+    // 鏇存柊鍦ㄧ嚎鐢ㄦ埛鍒楄〃UI
     function updateOnlineUsers(users) {
         const usersContainer = document.querySelector('.users');
         usersContainer.innerHTML = '';
@@ -405,28 +369,25 @@ function createNewsHTML(newsList) {
             userElement.innerHTML = `
                 <span class="user-status online"></span>
                 <span class="user-name">${user}</span>
-                ${user === currentUsername ? '<span class="self-tag">(我)</span>' : ''}
+                ${user === currentUsername ? '<span class="self-tag">(鎴?</span>' : ''}
             `;
             usersContainer.appendChild(userElement);
         });
         
-        // 更新用户数量
-        document.querySelector('.user-list-header h3').textContent = `在线用户 (${users.length})`;
+        // 鏇存柊鐢ㄦ埛鏁伴噺
+        document.querySelector('.user-list-header h3').textContent = `鍦ㄧ嚎鐢ㄦ埛 (${users.length})`;
     }
     
-    // 滚动到消息底部
-    function scrollToBottom() {
+    // 婊氬姩鍒版秷鎭簳閮?    function scrollToBottom() {
         messageArea.scrollTop = messageArea.scrollHeight;
     }
     
-    // 更新右侧边栏音乐播放器
-    function updateMusicPlayer(music) {
-        // 尝试查找现有的音乐播放器
+    // 鏇存柊鍙充晶杈规爮闊充箰鎾斁鍣?    function updateMusicPlayer(music) {
+        // 灏濊瘯鏌ユ壘鐜版湁鐨勯煶涔愭挱鏀惧櫒
         let musicPlayer = document.querySelector('.music-player-sidebar');
         
         if (!musicPlayer) {
-            // 如果不存在，创建新的播放器
-            musicPlayer = document.createElement('div');
+            // 濡傛灉涓嶅瓨鍦紝鍒涘缓鏂扮殑鎾斁鍣?            musicPlayer = document.createElement('div');
             musicPlayer.className = 'music-player-sidebar';
             musicPlayer.style.cssText = `
                 position: fixed;
@@ -443,10 +404,9 @@ function createNewsHTML(newsList) {
             document.body.appendChild(musicPlayer);
         }
         
-        // 更新播放器内容
-        musicPlayer.innerHTML = `
+        // 鏇存柊鎾斁鍣ㄥ唴瀹?        musicPlayer.innerHTML = `
             <div style="text-align: center; margin-bottom: 10px;">
-                <div style="font-weight: bold; color: #667eea;">🎵 正在播放音乐</div>
+                <div style="font-weight: bold; color: #667eea;">馃幍 姝ｅ湪鎾斁闊充箰</div>
             </div>
             <div style="text-align: center; margin-bottom: 10px;">
                 <img src="${music.cover_url || 'https://via.placeholder.com/120'}" 
@@ -456,38 +416,37 @@ function createNewsHTML(newsList) {
                      style="border-radius: 8px;">
             </div>
             <div style="text-align: center; margin-bottom: 10px;">
-                <div style="font-weight: bold;">${music.song_name || '未知歌曲'}</div>
-                <div style="color: #666; font-size: 14px;">${music.singer || '未知歌手'}</div>
+                <div style="font-weight: bold;">${music.song_name || '鏈煡姝屾洸'}</div>
+                <div style="color: #666; font-size: 14px;">${music.singer || '鏈煡姝屾墜'}</div>
             </div>
             <div style="text-align: center;">
                 <audio controls style="width: 100%;" referrerpolicy="no-referrer">
                     <source src="/proxy-music?url=${encodeURIComponent(music.song_url || '')}" type="audio/mpeg">
-                    您的浏览器不支持音频播放。
-                </audio>
+                    鎮ㄧ殑娴忚鍣ㄤ笉鏀寔闊抽鎾斁銆?                </audio>
             </div>
         `;
     }
     
-    // 初始化滚动到底部
+    // 鍒濆鍖栨粴鍔ㄥ埌搴曢儴
     scrollToBottom();
     
-    // 处理WebSocket连接断开
+    // 澶勭悊WebSocket杩炴帴鏂紑
     socket.on('disconnect', function() {
         const notification = document.createElement('div');
         notification.className = 'welcome-message';
         notification.style.color = '#dc3545';
-        notification.textContent = '与服务器连接已断开，请刷新页面重试';
+        notification.textContent = '涓庢湇鍔″櫒杩炴帴宸叉柇寮€锛岃鍒锋柊椤甸潰閲嶈瘯';
         messageArea.appendChild(notification);
         scrollToBottom();
     });
     
-    // 处理WebSocket连接错误
+    // 澶勭悊WebSocket杩炴帴閿欒
     socket.on('connect_error', function(error) {
-        console.error('连接错误:', error);
+        console.error('杩炴帴閿欒:', error);
         const notification = document.createElement('div');
         notification.className = 'welcome-message';
         notification.style.color = '#dc3545';
-        notification.textContent = '连接服务器时出错，请稍后重试';
+        notification.textContent = '杩炴帴鏈嶅姟鍣ㄦ椂鍑洪敊锛岃绋嶅悗閲嶈瘯';
         messageArea.appendChild(notification);
         scrollToBottom();
     });

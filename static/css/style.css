@@ -97,6 +97,134 @@ body {
     background-color: #5a67d8;
 }
 
+/* 认证标签和表单样式 */
+/* 用户名历史记录下拉列表样式 */
+.username-input-container {
+    position: relative;
+}
+
+.username-history-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.username-history-dropdown.show {
+    display: block;
+}
+
+.username-history-item {
+    padding: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.username-history-item:hover {
+    background-color: #f5f5f5;
+}
+
+.username-history-item.active {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.username-history-item .remove-btn {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    transition: color 0.2s;
+}
+
+.username-history-item .remove-btn:hover {
+    color: #dc3545;
+    background-color: #f8d7da;
+}
+
+/* 下拉列表滚动条样式 */
+.username-history-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.username-history-dropdown::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.username-history-dropdown::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.username-history-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+.auth-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #666;
+}
+
+.tab-btn.active {
+    color: #667eea;
+    border-bottom: 2px solid #667eea;
+    font-weight: 500;
+}
+
+.tab-btn:hover {
+    color: #5a67d8;
+}
+
+.auth-form {
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+#register-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#register-button:hover {
+    background-color: #218838;
+}
+
 /* 聊天室样式 */
 .chat-container {
     display: flex;
@@ -307,6 +435,77 @@ body {
     width: 100%;
     height: 100%;
     border: none;
+}
+
+/* 音乐播放器 */
+.music-player {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.music-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.music-pic {
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.music-pic img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.music-details {
+    text-align: center;
+    width: 100%;
+}
+
+.music-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+
+.music-details audio {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 10px;
+}
+
+.music-details audio::-webkit-media-controls {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.music-details audio::-webkit-media-controls-play-button {
+    background-color: #667eea;
+    border-radius: 50%;
+    color: white;
+}
+
+.music-details audio::-webkit-media-controls-current-time-display,
+.music-details audio::-webkit-media-controls-time-remaining-display {
+    color: #333;
+    font-size: 12px;
 }
 
 /* AI回复样式 */

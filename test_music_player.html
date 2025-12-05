@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐播放器测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .test-result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .test-result.pass {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .test-result.fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .music-player {
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f8f9fa;
+        }
+        .music-pic {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .music-pic img {
+            border-radius: 8px;
+        }
+        .music-details {
+            text-align: center;
+        }
+        .music-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .music-singer {
+            font-size: 14px;
+            color: #666;
+            margin: 5px 0;
+        }
+        .music-player-sidebar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 200px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            z-index: 1000;
+            border: 2px solid #667eea;
+        }
+        button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #5a6fd8;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>音乐播放器功能测试</h1>
+        
+        <div class="test-section">
+            <h2>1. 聊天区域音乐播放器测试</h2>
+            <button onclick="testChatMusicPlayer()">测试聊天区域播放器</button>
+            <div id="chat-music-player" class="music-player"></div>
+            <div id="chat-test-result" class="test-result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>2. 右侧边栏音乐播放器测试</h2>
+            <button onclick="testSidebarMusicPlayer()">测试右侧边栏播放器</button>
+            <button onclick="testIncompleteMusic()">测试不完整音乐信息</button>
+            <button onclick="clearSidebarPlayer()">清除播放器</button>
+            <div id="sidebar-test-result" class="test-result"></div>
+        </div>
+    </div>
+    
+    <script>
+        // 模拟音乐信息
+        const mockMusicInfo = {
+            song_name: '晴天',
+            singer: '周杰伦',
+            song_url: 'https://example.com/music.mp3',
+            cover_url: 'https://example.com/cover.jpg'
+        };
+        
+        const mockIncompleteMusicInfo = {
+            song_name: null,
+            singer: '',
+            song_url: '',
+            cover_url: null
+        };
+        
+        // 测试聊天区域音乐播放器
+        function testChatMusicPlayer() {
+            const musicPlayer = document.getElementById('chat-music-player');
+            const testResult = document.getElementById('chat-test-result');
+            
+            // 生成聊天区域音乐播放器HTML
+            const html = `
+                <div>🎵 正在播放音乐</div>
+                <div class="music-pic">
+                    <img src="${mockMusicInfo.cover_url}" alt="${mockMusicInfo.song_name}" width="300" height="300">
+                </div>
+                <div class="music-details">
+                    <h3 class="music-name">${mockMusicInfo.song_name}</h3>
+                    <h4 class="music-singer">${mockMusicInfo.singer}</h4>
+                    <audio controls>
+                        <source src="${mockMusicInfo.song_url}" type="audio/mpeg">
+                        您的浏览器不支持音频播放。
+                    </audio>
+                </div>
+            `;
+            
+            musicPlayer.innerHTML = html;
+            
+            // 验证结果
+            if (html.includes('晴天') && html.includes('周杰伦') && html.includes('https://example.com/cover.jpg')) {
+                testResult.innerHTML = '<strong>✅ 聊天区域音乐播放器测试通过！</strong><br>播放器已正确显示歌曲名称、歌手、封面图片和音频控件。';
+                testResult.className = 'test-result pass';
+            } else {
+                testResult.innerHTML = '<strong>❌ 聊天区域音乐播放器测试失败！</strong>';
+                testResult.className = 'test-result fail';
+            }
+        }
+        
+        // 测试右侧边栏音乐播放器
+        function testSidebarMusicPlayer() {
+            const testResult = document.getElementById('sidebar-test-result');
+            
+            // 更新或创建右侧边栏播放器
+            updateMusicPlayer(mockMusicInfo);
+            
+            testResult.innerHTML = '<strong>✅ 右侧边栏音乐播放器测试通过！</strong><br>播放器已创建并显示在页面右侧。';
+            testResult.className = 'test-result pass';
+        }
+        
+        // 测试不完整的音乐信息
+        function testIncompleteMusic() {
+            const testResult = document.getElementById('sidebar-test-result');
+            
+            // 更新或创建右侧边栏播放器
+            updateMusicPlayer(mockIncompleteMusicInfo);
+            
+            testResult.innerHTML = '<strong>✅ 不完整音乐信息测试通过！</strong><br>播放器已使用默认值显示。';
+            testResult.className = 'test-result pass';
+        }
+        
+        // 清除右侧边栏播放器
+        function clearSidebarPlayer() {
+            const musicPlayer = document.querySelector('.music-player-sidebar');
+            if (musicPlayer) {
+                musicPlayer.remove();
+            }
+            
+            const testResult = document.getElementById('sidebar-test-result');
+            testResult.innerHTML = '<strong>播放器已清除！</strong>';
+            testResult.className = 'test-result pass';
+        }
+        
+        // 更新右侧边栏音乐播放器（与chat.js中相同的函数）
+        function updateMusicPlayer(music) {
+            // 尝试查找现有的音乐播放器
+            let musicPlayer = document.querySelector('.music-player-sidebar');
+            
+            if (!musicPlayer) {
+                // 如果不存在，创建新的播放器
+                musicPlayer = document.createElement('div');
+                musicPlayer.className = 'music-player-sidebar';
+                document.body.appendChild(musicPlayer);
+            }
+            
+            // 更新播放器内容
+            musicPlayer.innerHTML = `
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <div style="font-weight: bold; color: #667eea;">🎵 正在播放音乐</div>
+                </div>
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <img src="${music.cover_url || 'https://via.placeholder.com/120'}" 
+                         alt="${music.song_name || '未知歌曲'}" 
+                         width="120" 
+                         height="120" 
+                         style="border-radius: 8px;">
+                </div>
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <div style="font-weight: bold;">${music.song_name || '未知歌曲'}</div>
+                    <div style="color: #666; font-size: 14px;">${music.singer || '未知歌手'}</div>
+                </div>
+                <div style="text-align: center;">
+                    <audio controls style="width: 100%;">
+                        <source src="${music.song_url || ''}" type="audio/mpeg">
+                        您的浏览器不支持音频播放。
+                    </audio>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

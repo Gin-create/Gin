@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻功能测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+        }
+        #news-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        #send-news-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        #send-news-btn:hover {
+            background-color: #45a049;
+        }
+        .news-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        .news-title {
+            font-weight: bold;
+            color: #333;
+        }
+        .news-time {
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <h1>新闻功能测试</h1>
+    <button id="send-news-btn">发送@新闻命令</button>
+    <div id="news-container">
+        <p>点击按钮发送@新闻命令，获取最新新闻。</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
+    <script>
+        // 连接到服务器
+        const socket = io('http://127.0.0.1:5001');
+        let username = '测试用户';
+
+        // 连接成功事件
+        socket.on('connect', () => {
+            console.log('已连接到服务器');
+        });
+
+        // 接收消息事件
+        socket.on('receive_message', (data) => {
+            console.log('收到消息:', data);
+            const newsContainer = document.getElementById('news-container');
+            
+            if (data.type === 'news') {
+                // 显示新闻
+                newsContainer.innerHTML = '<h2>最新新闻</h2>';
+                const newsItems = data.message;
+                newsItems.forEach(item => {
+                    const newsElement = document.createElement('div');
+                    newsElement.className = 'news-item';
+                    newsElement.innerHTML = `
+                        <div class="news-title">${item.rank}. ${item.title}</div>
+                        <div class="news-time">${item.hot} | ${item.category}</div>
+                    `;
+                    newsContainer.appendChild(newsElement);
+                });
+            } else {
+                // 显示其他消息
+                const messageElement = document.createElement('div');
+                messageElement.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
+                newsContainer.appendChild(messageElement);
+            }
+        });
+
+        // 发送新闻命令
+        document.getElementById('send-news-btn').addEventListener('click', () => {
+            console.log('发送@新闻命令');
+            socket.emit('send_message', {
+                username: username,
+                message: '@新闻'
+            });
+        });
+
+        // 连接错误事件
+        socket.on('connect_error', (error) => {
+            console.error('连接错误:', error);
+            const newsContainer = document.getElementById('news-container');
+            newsContainer.innerHTML = '<p style="color: red;">连接服务器失败，请检查服务器是否正在运行。</p>';
+        });
+    </script>
+</body>
+</html>

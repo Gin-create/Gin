@@ -1,0 +1,799 @@
+```
+请求示例：
+iimport requests
+
+url = "https://v2.xxapi.cn/api/weatherDetails?city=蓬莱"
+
+payload = {}
+headers = {
+'User-Agent': 'xiaoxiaoapi/1.0.0'
+}
+
+response = requests.request("GET", url, headers = headers, data = payload)
+
+print(response.text)
+
+
+返回示例：
+{
+    "code": 200,
+    "msg": "数据请求成功",
+    "data": {
+        "city": "山东蓬莱",
+        "data": [
+            {
+                "date": "10/21",
+                "day": "星期二",
+                "high_temp": 24,
+                "low_temp": 19,
+                "real_time_weather": [
+                    {
+                        "cloud_cover": "98.4%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "85.9%",
+                        "precipitation": "0.8mm",
+                        "pressure": "1011.2hPa",
+                        "temperature": "23.8",
+                        "time": "14:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "13.8m/s"
+                    },
+                    {
+                        "cloud_cover": "98.8%",
+                        "description": "比小雨强、但未达暴雨级别的持续性降雨。",
+                        "humidity": "85.4%",
+                        "precipitation": "3.3mm",
+                        "pressure": "1012hPa",
+                        "temperature": "23.1",
+                        "time": "17:00",
+                        "weather": "中雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "13.2m/s"
+                    },
+                    {
+                        "cloud_cover": "98.7%",
+                        "description": "比小雨强、但未达暴雨级别的持续性降雨。",
+                        "humidity": "84.4%",
+                        "precipitation": "3.4mm",
+                        "pressure": "1013.9hPa",
+                        "temperature": "21",
+                        "time": "20:00",
+                        "weather": "中雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "13.8m/s"
+                    },
+                    {
+                        "cloud_cover": "98.5%",
+                        "description": "比小雨强、但未达暴雨级别的持续性降雨。",
+                        "humidity": "83.5%",
+                        "precipitation": "3.2mm",
+                        "pressure": "1014.3hPa",
+                        "temperature": "21",
+                        "time": "23:00",
+                        "weather": "中雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "13.8m/s"
+                    },
+                    {
+                        "cloud_cover": "97.7%",
+                        "description": "比小雨强、但未达暴雨级别的持续性降雨。",
+                        "humidity": "83.3%",
+                        "precipitation": "4.2mm",
+                        "pressure": "1013.1hPa",
+                        "temperature": "21",
+                        "time": "02:00",
+                        "weather": "中雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "13.7m/s"
+                    },
+                    {
+                        "cloud_cover": "97.4%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "85%",
+                        "precipitation": "2.1mm",
+                        "pressure": "1013.2hPa",
+                        "temperature": "19.2",
+                        "time": "05:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "12.9m/s"
+                    },
+                    {
+                        "cloud_cover": "94.9%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "87.9%",
+                        "precipitation": "0.1mm",
+                        "pressure": "1014.9hPa",
+                        "temperature": "20",
+                        "time": "08:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "13.3m/s"
+                    },
+                    {
+                        "cloud_cover": "89.6%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "72.4%",
+                        "precipitation": "1.6mm",
+                        "pressure": "1015.5hPa",
+                        "temperature": "19.2",
+                        "time": "11:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.2m/s"
+                    }
+                ],
+                "weather_from": "小雨",
+                "weather_to": "小雨",
+                "wind_from": "北风",
+                "wind_level_from": "5~6级",
+                "wind_level_to": "5~6级",
+                "wind_to": "北风"
+            },
+            {
+                "date": "10/22",
+                "day": "星期三",
+                "high_temp": 22,
+                "low_temp": 19,
+                "real_time_weather": [
+                    {
+                        "cloud_cover": "94.9%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "87.9%",
+                        "precipitation": "0.1mm",
+                        "pressure": "1014.9hPa",
+                        "temperature": "20",
+                        "time": "08:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "13.3m/s"
+                    },
+                    {
+                        "cloud_cover": "89.6%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "72.4%",
+                        "precipitation": "1.6mm",
+                        "pressure": "1015.5hPa",
+                        "temperature": "19.2",
+                        "time": "11:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.2m/s"
+                    },
+                    {
+                        "cloud_cover": "87.4%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "79.3%",
+                        "precipitation": "2.1mm",
+                        "pressure": "1013.6hPa",
+                        "temperature": "20.9",
+                        "time": "14:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.9m/s"
+                    },
+                    {
+                        "cloud_cover": "84.3%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "78.2%",
+                        "precipitation": "1.6mm",
+                        "pressure": "1013.1hPa",
+                        "temperature": "21.8",
+                        "time": "17:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "13.8m/s"
+                    },
+                    {
+                        "cloud_cover": "87.4%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "78%",
+                        "precipitation": "0.5mm",
+                        "pressure": "1014.9hPa",
+                        "temperature": "20.9",
+                        "time": "20:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "9.9m/s"
+                    },
+                    {
+                        "cloud_cover": "87.4%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "76.4%",
+                        "precipitation": "2.3mm",
+                        "pressure": "1014.9hPa",
+                        "temperature": "20.7",
+                        "time": "23:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.5m/s"
+                    },
+                    {
+                        "cloud_cover": "86.3%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "76.5%",
+                        "precipitation": "2.3mm",
+                        "pressure": "1013.9hPa",
+                        "temperature": "20.5",
+                        "time": "02:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.8m/s"
+                    },
+                    {
+                        "cloud_cover": "72.1%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "76%",
+                        "precipitation": "2.3mm",
+                        "pressure": "1013.8hPa",
+                        "temperature": "20.5",
+                        "time": "05:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "13.8m/s"
+                    }
+                ],
+                "weather_from": "小雨",
+                "weather_to": "小雨",
+                "wind_from": "北风",
+                "wind_level_from": "5~6级",
+                "wind_level_to": "5~6级",
+                "wind_to": "北风"
+            },
+            {
+                "date": "10/23",
+                "day": "星期四",
+                "high_temp": 25,
+                "low_temp": 19,
+                "real_time_weather": [
+                    {
+                        "cloud_cover": "70.9%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "75.5%",
+                        "precipitation": "2.3mm",
+                        "pressure": "1015.1hPa",
+                        "temperature": "20.7",
+                        "time": "08:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.8m/s"
+                    },
+                    {
+                        "cloud_cover": "36.9%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "57.4%",
+                        "precipitation": "无降水",
+                        "pressure": "1015.2hPa",
+                        "temperature": "21.7",
+                        "time": "11:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "9.2m/s"
+                    },
+                    {
+                        "cloud_cover": "17.5%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "60.8%",
+                        "precipitation": "无降水",
+                        "pressure": "1013hPa",
+                        "temperature": "24.8",
+                        "time": "14:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "9.1m/s"
+                    },
+                    {
+                        "cloud_cover": "11.7%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "62.2%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.2hPa",
+                        "temperature": "24.5",
+                        "time": "17:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.7m/s"
+                    },
+                    {
+                        "cloud_cover": "12.5%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "64.8%",
+                        "precipitation": "无降水",
+                        "pressure": "1014hPa",
+                        "temperature": "22.5",
+                        "time": "20:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "8m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "65.8%",
+                        "precipitation": "无降水",
+                        "pressure": "1014.9hPa",
+                        "temperature": "21.2",
+                        "time": "23:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "8.2m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "66.7%",
+                        "precipitation": "无降水",
+                        "pressure": "1014hPa",
+                        "temperature": "19.9",
+                        "time": "02:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "8.1m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "66.9%",
+                        "precipitation": "无降水",
+                        "pressure": "1013hPa",
+                        "temperature": "19.5",
+                        "time": "05:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.4m/s"
+                    }
+                ],
+                "weather_from": "多云",
+                "weather_to": "多云",
+                "wind_from": "北风",
+                "wind_level_from": "4~5级",
+                "wind_level_to": "4~5级",
+                "wind_to": "北风"
+            },
+            {
+                "date": "10/24",
+                "day": "星期五",
+                "high_temp": 28,
+                "low_temp": 22,
+                "real_time_weather": [
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "67.2%",
+                        "precipitation": "无降水",
+                        "pressure": "1014.3hPa",
+                        "temperature": "19.2",
+                        "time": "08:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.7m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "57.6%",
+                        "precipitation": "无降水",
+                        "pressure": "1014.4hPa",
+                        "temperature": "24.2",
+                        "time": "11:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.7m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "61.8%",
+                        "precipitation": "无降水",
+                        "pressure": "1011.8hPa",
+                        "temperature": "27.8",
+                        "time": "14:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "8.8m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "63.5%",
+                        "precipitation": "无降水",
+                        "pressure": "1010.7hPa",
+                        "temperature": "26.5",
+                        "time": "17:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "8.5m/s"
+                    },
+                    {
+                        "cloud_cover": "11.2%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "66.4%",
+                        "precipitation": "无降水",
+                        "pressure": "1011.9hPa",
+                        "temperature": "25.1",
+                        "time": "20:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "5.5m/s"
+                    },
+                    {
+                        "cloud_cover": "24.6%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "68.4%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.7hPa",
+                        "temperature": "23.7",
+                        "time": "23:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "7.8m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "70.4%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.2hPa",
+                        "temperature": "22.2",
+                        "time": "02:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "10.7m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "70.1%",
+                        "precipitation": "无降水",
+                        "pressure": "1011.6hPa",
+                        "temperature": "22.2",
+                        "time": "05:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "8m/s"
+                    }
+                ],
+                "weather_from": "多云",
+                "weather_to": "多云",
+                "wind_from": "北风",
+                "wind_level_from": "4~5级",
+                "wind_level_to": "4~5级",
+                "wind_to": "北风"
+            },
+            {
+                "date": "10/25",
+                "day": "星期六",
+                "high_temp": 30,
+                "low_temp": 23,
+                "real_time_weather": [
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "69.8%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.6hPa",
+                        "temperature": "22.2",
+                        "time": "08:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "8.5m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "59.5%",
+                        "precipitation": "无降水",
+                        "pressure": "1013.2hPa",
+                        "temperature": "26.6",
+                        "time": "11:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "3.3m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "62.9%",
+                        "precipitation": "无降水",
+                        "pressure": "1010.9hPa",
+                        "temperature": "29.8",
+                        "time": "14:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "2.3m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "65.6%",
+                        "precipitation": "无降水",
+                        "pressure": "1010.2hPa",
+                        "temperature": "28.3",
+                        "time": "17:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "1m/s"
+                    },
+                    {
+                        "cloud_cover": "10.1%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "69%",
+                        "precipitation": "无降水",
+                        "pressure": "1011.6hPa",
+                        "temperature": "26.8",
+                        "time": "20:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "0.4m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "69.3%",
+                        "precipitation": "无降水",
+                        "pressure": "1011.7hPa",
+                        "temperature": "25.3",
+                        "time": "23:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "0.9m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "69.6%",
+                        "precipitation": "无降水",
+                        "pressure": "1011.8hPa",
+                        "temperature": "23.8",
+                        "time": "02:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "2.8m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "69.1%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.4hPa",
+                        "temperature": "23.5",
+                        "time": "05:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "3.3m/s"
+                    }
+                ],
+                "weather_from": "多云",
+                "weather_to": "晴",
+                "wind_from": "无持续风向",
+                "wind_level_from": "微风",
+                "wind_level_to": "微风",
+                "wind_to": "无持续风向"
+            },
+            {
+                "date": "10/26",
+                "day": "星期日",
+                "high_temp": 30,
+                "low_temp": 23,
+                "real_time_weather": [
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "68.6%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.9hPa",
+                        "temperature": "23.2",
+                        "time": "08:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "0.3m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "55.7%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.1hPa",
+                        "temperature": "27",
+                        "time": "11:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "1m/s"
+                    },
+                    {
+                        "cloud_cover": "3.9%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "59.3%",
+                        "precipitation": "无降水",
+                        "pressure": "1011.4hPa",
+                        "temperature": "29.8",
+                        "time": "14:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "3.3m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "61.5%",
+                        "precipitation": "无降水",
+                        "pressure": "1011.7hPa",
+                        "temperature": "28.4",
+                        "time": "17:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "3.2m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "64.5%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.1hPa",
+                        "temperature": "26.8",
+                        "time": "20:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "0.7m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "65.8%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.2hPa",
+                        "temperature": "25.6",
+                        "time": "23:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "0.2m/s"
+                    },
+                    {
+                        "cloud_cover": "6.4%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "67.2%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.4hPa",
+                        "temperature": "24.2",
+                        "time": "02:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "2.9m/s"
+                    },
+                    {
+                        "cloud_cover": "8.9%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "66.5%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.9hPa",
+                        "temperature": "23.7",
+                        "time": "05:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "3.3m/s"
+                    }
+                ],
+                "weather_from": "晴",
+                "weather_to": "晴",
+                "wind_from": "无持续风向",
+                "wind_level_from": "微风",
+                "wind_level_to": "微风",
+                "wind_to": "无持续风向"
+            },
+            {
+                "date": "10/27",
+                "day": "星期一",
+                "high_temp": 24,
+                "low_temp": 20,
+                "real_time_weather": [
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "65.8%",
+                        "precipitation": "无降水",
+                        "pressure": "1013.4hPa",
+                        "temperature": "23.2",
+                        "time": "08:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "0.1m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "65.5%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.7hPa",
+                        "temperature": "22.7",
+                        "time": "11:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "3.3m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "71.4%",
+                        "precipitation": "无降水",
+                        "pressure": "1011.9hPa",
+                        "temperature": "24.6",
+                        "time": "14:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "1.4m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "73.6%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.5hPa",
+                        "temperature": "24.5",
+                        "time": "17:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "0.8m/s"
+                    },
+                    {
+                        "cloud_cover": "10%",
+                        "description": "太阳高照，天空无云。",
+                        "humidity": "75.8%",
+                        "precipitation": "无降水",
+                        "pressure": "1013.1hPa",
+                        "temperature": "24.4",
+                        "time": "20:00",
+                        "weather": "晴天",
+                        "wind_dir": "东北风",
+                        "wind_speed": "0.3m/s"
+                    },
+                    {
+                        "cloud_cover": "49.3%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "77.3%",
+                        "precipitation": "无降水",
+                        "pressure": "1013hPa",
+                        "temperature": "23.3",
+                        "time": "23:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "1.2m/s"
+                    },
+                    {
+                        "cloud_cover": "50.6%",
+                        "description": "太阳部分被云遮挡，天气较为晴朗。",
+                        "humidity": "79%",
+                        "precipitation": "无降水",
+                        "pressure": "1012.9hPa",
+                        "temperature": "22.1",
+                        "time": "02:00",
+                        "weather": "多云",
+                        "wind_dir": "东北风",
+                        "wind_speed": "3.3m/s"
+                    },
+                    {
+                        "cloud_cover": "69.2%",
+                        "description": "持续性的小雨天气。",
+                        "humidity": "76.2%",
+                        "precipitation": "无降水",
+                        "pressure": "1013.4hPa",
+                        "temperature": "21.4",
+                        "time": "05:00",
+                        "weather": "小雨",
+                        "wind_dir": "东北风",
+                        "wind_speed": "1.3m/s"
+                    }
+                ],
+                "weather_from": "晴",
+                "weather_to": "多云",
+                "wind_from": "无持续风向",
+                "wind_level_from": "微风",
+                "wind_level_to": "微风",
+                "wind_to": "无持续风向"
+            }
+        ]
+    },
+    "request_id": "caf6ff46534843b64776c16c"
+}
+
+```

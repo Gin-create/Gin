@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单聊天室测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #messages { border: 1px solid #ccc; height: 300px; overflow-y: scroll; margin-bottom: 10px; padding: 10px; }
+        #messageInput { width: 80%; padding: 5px; }
+        #sendBtn { width: 15%; padding: 5px; }
+    </style>
+</head>
+<body>
+    <h1>简单聊天室测试</h1>
+    <div id="messages"></div>
+    <input type="text" id="messageInput" placeholder="输入消息...">
+    <button id="sendBtn">发送</button>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+    <script>
+        // 连接Socket.IO
+        const socket = io('http://localhost:5001');
+        
+        // DOM元素
+        const messagesDiv = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        
+        // 登录（模拟）
+        const login = async () => {
+            const response = await fetch('http://localhost:5001/login', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    username: 'gin',
+                    password: '123456'
+                }),
+                credentials: 'include'
+            });
+            
+            console.log('登录状态:', response.status);
+            return response.status === 200;
+        };
+        
+        // 发送消息
+        const sendMessage = () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                console.log('发送消息:', message);
+                socket.emit('send_message', { message: message });
+                messageInput.value = '';
+            }
+        };
+        
+        // 接收消息
+        socket.on('receive_message', (data) => {
+            console.log('接收消息:', data);
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+        
+        // 连接事件
+        socket.on('connect', () => {
+            console.log('Socket.IO连接成功');
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = '<strong>系统:</strong> 连接成功';
+            messagesDiv.appendChild(messageDiv);
+        });
+        
+        // 错误事件
+        socket.on('connect_error', (error) => {
+            console.error('连接错误:', error);
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = `<strong>系统:</strong> 连接失败: ${error.message}`;
+            messagesDiv.appendChild(messageDiv);
+        });
+        
+        // 绑定事件
+        sendBtn.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // 页面加载完成后登录
+        window.addEventListener('load', async () => {
+            await login();
+        });
+    </script>
+</body>
+</html>

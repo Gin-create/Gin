@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代理路由测试</title>
+</head>
+<body>
+    <h1>音乐代理路由测试</h1>
+    
+    <h2>测试1: 使用相对路径的代理URL</h2>
+    <audio controls>
+        <source src="/proxy-music?url=http%3A%2F%2Fmusic.163.com%2Fsong%2Fmedia%2Fouter%2Furl%3Fid%3D167655" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
+    
+    <h2>测试2: 直接使用百度首页作为测试URL</h2>
+    <audio controls>
+        <source src="/proxy-music?url=http%3A%2F%2Fwww.baidu.com" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
+    
+    <h2>测试3: 使用HTTP测试网站</h2>
+    <audio controls>
+        <source src="/proxy-music?url=http%3A%2F%2Fhttpbin.org%2Fget" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
+</body>
+</html>

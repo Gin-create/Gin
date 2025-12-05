@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO 测试</title>
+    <script src="https://cdn.socket.io/4.7.0/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #messages {
+            border: 1px solid #ccc;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        #input {
+            width: 70%;
+            padding: 10px;
+        }
+        #send {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Socket.IO 测试</h1>
+    <div id="messages"></div>
+    <input type="text" id="input" placeholder="输入消息...">
+    <button id="send">发送</button>
+
+    <script>
+        // 连接到服务器
+        const socket = io('http://localhost:5001');
+
+        // 连接事件
+        socket.on('connect', () => {
+            console.log('成功连接到服务器');
+            addMessage('系统', '成功连接到服务器');
+        });
+
+        // 断开连接事件
+        socket.on('disconnect', () => {
+            console.log('与服务器断开连接');
+            addMessage('系统', '与服务器断开连接');
+        });
+
+        // 接收消息事件
+        socket.on('receive_message', (data) => {
+            console.log('收到消息:', data);
+            addMessage(data.username, data.message);
+        });
+
+        // 发送消息
+        document.getElementById('send').addEventListener('click', () => {
+            const message = document.getElementById('input').value;
+            if (message) {
+                console.log('发送消息:', message);
+                socket.emit('send_message', { message: message });
+                document.getElementById('input').value = '';
+            }
+        });
+
+        // 添加消息到页面
+        function addMessage(username, message) {
+            const messages = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.innerHTML = `<strong>${username}:</strong> ${message}`;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+</body>
+</html>

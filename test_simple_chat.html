@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单聊天室测试</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #messages {
+            border: 1px solid #ddd;
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        #input-message {
+            width: 70%;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>简单聊天室测试</h1>
+    <div id="messages"></div>
+    <input type="text" id="input-message" placeholder="输入消息...">
+    <button id="send-btn">发送</button>
+    
+    <script>
+        // 连接到服务器
+        const socket = io('http://localhost:5001', {
+            withCredentials: true
+        });
+        
+        // 连接事件
+        socket.on('connect', () => {
+            addMessage('系统', '已连接到服务器');
+        });
+        
+        // 断开连接事件
+        socket.on('disconnect', () => {
+            addMessage('系统', '与服务器断开连接');
+        });
+        
+        // 接收消息事件
+        socket.on('receive_message', (data) => {
+            addMessage(data.username, data.message);
+            console.log('收到消息:', data);
+        });
+        
+        // 用户加入事件
+        socket.on('user_joined', (data) => {
+            addMessage('系统', `${data.username} 加入了聊天室`);
+            addMessage('系统', `当前在线用户: ${data.online_users.join(', ')}`);
+        });
+        
+        // 用户离开事件
+        socket.on('user_left', (data) => {
+            addMessage('系统', `${data.username} 离开了聊天室`);
+            addMessage('系统', `当前在线用户: ${data.online_users.join(', ')}`);
+        });
+        
+        // 更新在线用户列表事件
+        socket.on('update_online_users', (data) => {
+            addMessage('系统', `当前在线用户: ${data.online_users.join(', ')}`);
+        });
+        
+        // 发送消息
+        document.getElementById('send-btn').addEventListener('click', () => {
+            const message = document.getElementById('input-message').value;
+            if (message.trim()) {
+                socket.emit('send_message', { message: message });
+                document.getElementById('input-message').value = '';
+            }
+        });
+        
+        // 回车键发送消息
+        document.getElementById('input-message').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('send-btn').click();
+            }
+        });
+        
+        // 添加消息到消息列表
+        function addMessage(username, message) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = `<strong>${username}:</strong> ${message}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>

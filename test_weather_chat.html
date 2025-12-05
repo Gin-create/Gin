@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气功能测试</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #333;
+        }
+        .command-input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .send-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .send-btn:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        iframe {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .api-test {
+            margin-top: 15px;
+        }
+        .api-url {
+            font-family: monospace;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .api-response {
+            font-family: monospace;
+            font-size: 12px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>@天气功能测试</h1>
+
+    <div class="test-section">
+        <h2>1. 天气API测试</h2>
+        <div class="api-test">
+            <label for="api-city">城市：</label>
+            <input type="text" id="api-city" class="command-input" value="成都">
+            <button class="send-btn" onclick="testWeatherAPI()">测试API</button>
+            <div id="api-result" class="api-response">
+                <!-- API响应将显示在这里 -->
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. 天气卡片测试</h2>
+        <div class="api-test">
+            <label for="card-city">城市：</label>
+            <input type="text" id="card-city" class="command-input" value="成都">
+            <button class="send-btn" onclick="showWeatherCard()">显示天气卡片</button>
+            <div id="card-result" class="result">
+                <!-- 天气卡片将显示在这里 -->
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. 聊天界面模拟</h2>
+        <div>
+            <label for="chat-input">输入聊天命令：</label>
+            <input type="text" id="chat-input" class="command-input" value="@天气 成都">
+            <button class="send-btn" onclick="simulateChatCommand()">发送</button>
+        </div>
+        <div id="chat-result" class="result">
+            <!-- 聊天消息将显示在这里 -->
+        </div>
+    </div>
+
+    <script>
+        // 测试天气API
+        async function testWeatherAPI() {
+            const city = document.getElementById('api-city').value;
+            const url = `/weather?city=${encodeURIComponent(city)}`;
+            const resultDiv = document.getElementById('api-result');
+            
+            resultDiv.innerHTML = `<div class="api-url">请求URL: ${url}</div>正在请求API...`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                resultDiv.innerHTML = `<div class="api-url">请求URL: ${url}</div>` + 
+                    `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="api-url">请求URL: ${url}</div>` + 
+                    `<div style="color: red;">请求失败: ${error.message}</div>`;
+            }
+        }
+
+        // 显示天气卡片
+        function showWeatherCard() {
+            const city = document.getElementById('card-city').value;
+            const iframeUrl = `/weather.html?city=${encodeURIComponent(city)}`;
+            const resultDiv = document.getElementById('card-result');
+            
+            resultDiv.innerHTML = `
+                <h3>天气卡片 (${city})</h3>
+                <iframe src="${iframeUrl}" width="400" height="400" frameborder="0" scrolling="auto"></iframe>
+            `;
+        }
+
+        // 模拟聊天命令
+        function simulateChatCommand() {
+            const input = document.getElementById('chat-input').value;
+            const resultDiv = document.getElementById('chat-result');
+            
+            // 检查是否为@天气命令
+            const weatherRegex = /^@天气\s+(.+)$/;
+            const match = input.match(weatherRegex);
+            
+            if (match) {
+                const city = match[1];
+                const iframeUrl = `/weather.html?city=${encodeURIComponent(city)}`;
+                
+                resultDiv.innerHTML = `
+                    <div style="margin-bottom: 10px;">
+                        <strong>用户:</strong> ${input}
+                    </div>
+                    <div>
+                        <strong>系统:</strong>
+                        <div style="margin-top: 10px;">
+                            <div class="weather-card">
+                                <iframe src="${iframeUrl}" width="400" height="400" frameborder="0" scrolling="auto"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="margin-bottom: 10px;">
+                        <strong>用户:</strong> ${input}
+                    </div>
+                    <div>
+                        <strong>系统:</strong> 这不是一个有效的@天气命令
+                    </div>
+                `;
+            }
+        }
+
+        // 页面加载时自动测试
+        window.onload = function() {
+            // 延迟一下，确保服务器完全启动
+            setTimeout(() => {
+                testWeatherAPI();
+                showWeatherCard();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

@@ -10,24 +10,59 @@
     <div class="login-container">
         <div class="login-box">
             <h1>DaiP智能聊天室</h1>
+            
             {% if error %}
             <div class="error-message">{{ error }}</div>
             {% endif %}
-            <form id="login-form" action="/login" method="POST">
+            
+            <!-- 登录/注册切换标签 -->
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab('login')">登录</button>
+                <button class="tab-btn" onclick="switchTab('register')">注册</button>
+            </div>
+            
+            <!-- 登录表单 -->
+            <form id="login-form" class="auth-form active" action="/login" method="POST">
                 <div class="form-group">
-                    <label for="username">昵称</label>
-                    <input type="text" id="username" name="username" placeholder="请输入您的昵称" required>
-                    <div id="username-validation" class="validation-message"></div>
+                    <label for="login-username">用户名</label>
+                    <div class="username-input-container">
+                        <input type="text" id="login-username" name="username" placeholder="请输入您的用户名" required>
+                        <!-- 用户名历史记录下拉列表 -->
+                        <div id="username-history-list" class="username-history-dropdown"></div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="server_url">服务器地址</label>
-                    <select id="server_url" name="server_url" required>
+                    <label for="login-password">密码</label>
+                    <input type="password" id="login-password" name="password" placeholder="请输入您的密码" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-server_url">服务器地址</label>
+                    <select id="login-server_url" name="server_url" required>
                         {% for server in servers %}
                         <option value="{{ server.url }}">{{ server.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <button type="submit" id="login-button">登录</button>
+            </form>
+            
+            <!-- 注册表单 -->
+            <form id="register-form" class="auth-form" action="/register" method="POST">
+                <div class="form-group">
+                    <label for="register-username">用户名</label>
+                    <input type="text" id="register-username" name="username" placeholder="请输入您的用户名" required>
+                    <div id="register-username-validation" class="validation-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">密码</label>
+                    <input type="password" id="register-password" name="password" placeholder="请输入您的密码" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">确认密码</label>
+                    <input type="password" id="register-confirm-password" name="confirm_password" placeholder="请再次输入您的密码" required>
+                    <div id="register-password-validation" class="validation-message"></div>
+                </div>
+                <button type="submit" id="register-button">注册</button>
             </form>
         </div>
     </div>

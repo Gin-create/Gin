@@ -8,3 +8,11 @@ SERVER_CONFIG = {
     'secret_key': 'your-secret-key-here',
     'debug': True
 }
+
+# AI模型配置
+AI_CONFIG = {
+    'api_key': 'sk-orxlsmelhexcosqumhchsiabeasxhwkmvcfzqqjakwhqoaqv',
+    'model_name': 'Qwen/Qwen2.5-7B-Instruct',
+    'api_url': 'https://api.siliconflow.cn/v1/',
+    'ai_username': '伯小爵'  # AI用户名称，用于@功能识别
+}

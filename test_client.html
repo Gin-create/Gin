@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>聊天室测试客户端</title>
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: #f5f5f5;
+        }
+        .ai-message {
+            background-color: #e8f0fe;
+        }
+    </style>
+</head>
+<body>
+    <h1>聊天室测试客户端</h1>
+    <div id="messages"></div>
+    <button id="send-news">发送@新闻命令</button>
+
+    <script>
+        // 连接到服务器
+        const socket = io('http://localhost:5001', {
+            transports: ['polling']
+        });
+
+        // 监听连接事件
+        socket.on('connect', () => {
+            console.log('已连接到服务器');
+            addMessage('系统', '已连接到服务器', 'system');
+        });
+
+        // 监听接收消息事件
+        socket.on('receive_message', (message) => {
+            console.log('收到消息:', message);
+            let type = 'normal';
+            if (message.type === 'news') {
+                type = 'ai-message';
+                addMessage(message.username, message.message, type);
+                // 如果是新闻消息，显示新闻列表
+                if (message.news_list && message.news_list.length > 0) {
+                    let newsHtml = '<div style="margin-left: 20px; margin-top: 10px;"><strong>新闻列表:</strong><br>';
+                    message.news_list.slice(0, 10).forEach((news, index) => {
+                        newsHtml += `${index + 1}. <a href="${news.url}" target="_blank">${news.title}</a> (${news.hot})<br>`;
+                    });
+                    newsHtml += '</div>';
+                    addMessage('', newsHtml, 'news', true);
+                }
+            } else {
+                addMessage(message.username, message.message, type);
+            }
+        });
+
+        // 发送@新闻命令
+        document.getElementById('send-news').addEventListener('click', () => {
+            const message = {
+                type: 'normal',
+                username: '测试用户',
+                message: '@新闻'
+            };
+            socket.emit('send_message', message);
+            addMessage('测试用户', '@新闻', 'user');
+        });
+
+        // 添加消息到页面
+        function addMessage(username, message, type, isHtml = false) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            let html = '';
+            if (username) {
+                html += `<strong>${username}:</strong> `;
+            }
+            
+            if (isHtml) {
+                messageDiv.innerHTML = html + message;
+            } else {
+                messageDiv.textContent = html + message;
+            }
+            
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>

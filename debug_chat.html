@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调试聊天功能</title>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .chat-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        .input-area {
+            display: flex;
+        }
+        #messageInput {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #sendButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+        .status {
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>调试聊天功能</h1>
+        <div class="status">
+            <strong>连接状态:</strong> <span id="connectionStatus">断开</span>
+        </div>
+        <div class="chat-box" id="chatBox">
+            <p>等待连接...</p>
+        </div>
+        <div class="input-area">
+            <input type="text" id="messageInput" placeholder="输入消息...">
+            <button id="sendButton">发送</button>
+        </div>
+    </div>
+
+    <script>
+        // 初始化Socket.IO连接
+        const socket = io.connect('http://localhost:5001');
+        
+        // 获取DOM元素
+        const connectionStatus = document.getElementById('connectionStatus');
+        const chatBox = document.getElementById('chatBox');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        
+        // 连接事件
+        socket.on('connect', () => {
+            console.log('已连接到服务器');
+            connectionStatus.textContent = '已连接';
+            connectionStatus.style.color = 'green';
+            addMessage('系统', '已连接到服务器');
+        });
+        
+        // 断开连接事件
+        socket.on('disconnect', () => {
+            console.log('已断开与服务器的连接');
+            connectionStatus.textContent = '断开';
+            connectionStatus.style.color = 'red';
+            addMessage('系统', '已断开与服务器的连接');
+        });
+        
+        // 错误事件
+        socket.on('error', (error) => {
+            console.error('Socket.IO错误:', error);
+            addMessage('系统', `错误: ${error}`);
+        });
+        
+        // 接收消息事件
+        socket.on('receive_message', (data) => {
+            console.log('收到消息:', data);
+            addMessage(data.username, data.message, data.type);
+        });
+        
+        // 添加消息到聊天框
+        function addMessage(username, message, type = 'normal') {
+            const messageElement = document.createElement('p');
+            messageElement.innerHTML = `<strong>${username}:</strong> ${message}`;
+            if (type !== 'normal') {
+                messageElement.style.color = 'blue';
+                messageElement.innerHTML += ` (类型: ${type})`;
+            }
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        
+        // 发送消息函数
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                console.log('发送消息:', message);
+                socket.emit('send_message', { message: message });
+                addMessage('我', message, '发送');
+                messageInput.value = '';
+            }
+        }
+        
+        // 发送按钮点击事件
+        sendButton.addEventListener('click', sendMessage);
+        
+        // 回车键发送消息
+        messageInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

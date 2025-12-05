@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气功能测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input {
+            padding: 8px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>天气功能测试</h1>
+    
+    <div class="test-section">
+        <h2>测试天气API</h2>
+        <input type="text" id="cityInput" placeholder="输入城市名" value="北京">
+        <button onclick="testWeatherAPI()">获取天气</button>
+        <div id="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>直接访问天气页面</h2>
+        <p><a href="http://localhost:5001/weather.html?city=北京" target="_blank">点击访问天气页面</a></p>
+    </div>
+
+    <script>
+        function testWeatherAPI() {
+            const city = document.getElementById('cityInput').value;
+            const url = `http://localhost:5001/weather?city=${encodeURIComponent(city)}`;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = '正在获取天气数据...';
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        resultDiv.innerHTML = `
+                            <h3>✅ 天气查询成功</h3>
+                            <p><strong>城市:</strong> ${data.data.city}</p>
+                            <p><strong>当前天气:</strong> ${data.data.weather_from} 转 ${data.data.weather_to}</p>
+                            <p><strong>温度范围:</strong> ${data.data.low_temp}°C - ${data.data.high_temp}°C</p>
+                            <p><strong>风力:</strong> ${data.data.wind_from} ${data.data.wind_level_from} 转 ${data.data.wind_to} ${data.data.wind_level_to}</p>
+                            <h4>未来天气:</h4>
+                            <ul>
+                                ${data.data.data.map(day => `
+                                    <li>
+                                        ${day.date} (${day.day}): ${day.weather_from} 转 ${day.weather_to}, ${day.low_temp}°C - ${day.high_temp}°C
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        `;
+                    } else {
+                        resultDiv.innerHTML = `<h3>❌ 天气查询失败</h3><p>错误信息: ${data.msg}</p>`;
+                    }
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<h3>❌ 请求失败</h3><p>错误: ${error.message}</p>`;
+                });
+        }
+        
+        // 页面加载时自动测试
+        window.onload = function() {
+            testWeatherAPI();
+        };
+    </script>
+</body>
+</html>

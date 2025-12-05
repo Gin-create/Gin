@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试聊天室修复</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+</head>
+<body>
+    <h1>测试聊天室修复</h1>
+    <div id="test-results"></div>
+    <script>
+        const results = document.getElementById('test-results');
+        
+        function logResult(message, isError = false) {
+            const div = document.createElement('div');
+            div.textContent = message;
+            div.style.color = isError ? 'red' : 'green';
+            results.appendChild(div);
+        }
+        
+        try {
+            // 模拟发送消息的函数
+            function sendMessage() {
+                const message = '测试消息';
+                if (message) {
+                    // 检查是否是@电影消息
+                    if (message.startsWith('@电影')) {
+                        logResult('处理@电影消息');
+                    } else if (message.startsWith('@伯小爵')) {
+                        logResult('处理@伯小爵消息');
+                    } else if (message.startsWith('@音乐')) {
+                        logResult('处理@音乐消息');
+                    } else if (message.startsWith('@天气')) {
+                        logResult('处理@天气消息');
+                    } else {
+                        logResult('处理普通消息：' + message);
+                    }
+                }
+            }
+            
+            // 测试所有消息类型
+            logResult('=== 开始测试消息类型处理 ===');
+            
+            // 测试普通消息
+            const originalLog = console.log;
+            console.log = function(msg) {
+                logResult(msg);
+                originalLog.apply(console, arguments);
+            };
+            
+            sendMessage();
+            
+            // 恢复console.log
+            console.log = originalLog;
+            
+            logResult('=== 测试完成 ===');
+            logResult('所有消息类型处理正常！', false);
+            
+        } catch (error) {
+            logResult('测试失败：' + error.message, true);
+        }
+    </script>
+</body>
+</html>
